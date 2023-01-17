@@ -38,7 +38,7 @@
         // request url
         $url = $requesturl;
 
-        try {
+        try {  
 
           // initialized curl
           $ch = curl_init();
