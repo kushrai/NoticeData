@@ -1,0 +1,7 @@
+notice_data.api_get:
+  path: /notice/get_data
+  defaults:
+    _controller: Drupal\notice_data\Controller\NoticeController::getData
+  methods: ['GET']
+  requirements:
+    _permission: 'access content'

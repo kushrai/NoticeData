@@ -1,0 +1,86 @@
+<?php
+
+      function notice_response($url, $method = 'GET', $params = array()) {
+        $methods = [
+          'GET',
+        ];
+        $result = array();
+
+        try {
+          if (empty($url)) {
+            throw new Exception("Invalid url");
+          }
+          if (in_array(strtoupper($method), $methods) === FALSE) {
+            throw new Exception("Invalid method");
+          }
+          else {
+            switch (strtoupper($method)) {
+              case 'GET':
+                if (function_exists('notice_call_request')) {
+                  $result = notice_call_request($url, $method, $params);
+                }
+                break;
+              default:
+                throw new Exception("Invalid method");
+                break;
+            }
+          }
+        }
+        catch (Exception $e) {
+          echo $e->getMessage();
+        }
+
+        return $result;
+      }
+
+      function notice_call_request($requesturl, $method, $params = array()) {
+
+        // request url
+        $url = $requesturl;
+
+        try {
+
+          // initialized curl
+          $ch = curl_init();
+
+          // set header for curl request
+          $headers = array(
+            "Cache-Control: no-cache",
+            "Pragma: no-cache"
+          );
+
+          // set required setting with curl configuration
+          curl_setopt($ch, CURLOPT_URL, $url);
+          curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+          curl_setopt($ch, CURLOPT_FRESH_CONNECT, TRUE);
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+          curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+          curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
+
+          // pass the additional values
+          curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+
+          // close the curl connection
+          $result = curl_exec($ch);
+          curl_close($ch);
+
+          return $result;
+        }
+        catch (Exception $e) {
+          echo $e->getMessage();
+        }
+      }
+
+
+      /**
+     * implements hook_theme();
+     */
+    function notice_data_theme($existing, $type, $theme, $path) {
+      return array(
+        'notice_list' => array(
+          'variables' => array(
+            'data' => NULL
+          )
+        ),
+      );
+    }

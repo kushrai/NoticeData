@@ -1,0 +1,5 @@
+name: Notice Data Reader
+description: Develop by Kush Rai
+core_version_requirement: ^8 || ^9
+type: module
+package: Custom
