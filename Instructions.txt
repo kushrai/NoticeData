@@ -1,0 +1,7 @@
+STEPS:
+
+1. custom module name is "notice_data"
+1. Install this module
+2. clear cache
+3. Access this link https://example.com/notice/get_data  OR directly append "/notice/get_data" at the end of 
+domain name.
